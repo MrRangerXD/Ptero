@@ -142,14 +142,6 @@ lxc_setup() {
         sudo usermod -aG lxd root
         bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/lxc.sh)
         echo -e "${G}✅ Installed. Please logout/login.${N}"
-    else
-        echo -e "${C}LXD is installed.${N}"
-        echo "1. List Containers"
-        echo "2. Launch Ubuntu 22.04"
-        read -p "Choice: " c
-        if [ "$c" == "1" ]; then lxc list; fi
-        if [ "$c" == "2" ]; then read -p "Name: " n; lxc launch ubuntu:22.04 "$n"; fi
-    fi
     pause
 }
 
