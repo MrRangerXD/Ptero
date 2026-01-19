@@ -124,7 +124,7 @@ panel_menu() {
                 ;;
             3) 
                 echo -e "${B}➜ Installing 1Panel...${N}"
-                bash <(curl -s 
+                bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/1panel.sh)
                 pause 
                 ;;
             0) return ;;
