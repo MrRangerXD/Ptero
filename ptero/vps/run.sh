@@ -114,18 +114,17 @@ panel_menu() {
         case $p_opt in
             1) 
                 echo -e "${B}➜ Installing Cockpit...${N}"
-                sudo apt update && sudo apt install -y cockpit
-                sudo systemctl enable --now cockpit.socket
+                bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/cockpit.sh)
                 echo -e "${G}✅ Done. Access at http://IP:9090${N}"; pause 
                 ;;
             2) 
                 echo -e "${B}➜ Installing CasaOS...${N}"
-                curl -fsSL https://get.casaos.io | bash
+                bash <(curl -s 
                 pause 
                 ;;
             3) 
                 echo -e "${B}➜ Installing 1Panel...${N}"
-                curl -fsSL https://resource.fit2cloud.com/1panel/package/quick_start.sh | bash
+                bash <(curl -s 
                 pause 
                 ;;
             0) return ;;
