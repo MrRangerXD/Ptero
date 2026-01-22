@@ -207,7 +207,7 @@ ln -sf /etc/nginx/sites-available/FeatherPanel.conf /etc/nginx/sites-enabled/Fea
 nginx -t && systemctl restart nginx
 
 
-clear
+
 echo "======================================"
 echo " ✅ FEATHERPANEL LIVE"
 echo " 🌐 https://${DOMAIN}"
