@@ -1,207 +1,250 @@
 #!/bin/bash
-set -e
 
 # ==================================================
-#  TERMINAL SHARING HUB | DASHBOARD UI
+#  TERMINAL SHARING HUB v4.1 | FIXED UNINSTALLER
 # ==================================================
 
-# --- COLORS ---
-C_RESET='\033[0m'
-C_RED='\033[1;31m'
-C_GREEN='\033[1;32m'
-C_YELLOW='\033[1;33m'
-C_BLUE='\033[1;34m'
-C_PURPLE='\033[1;35m'
-C_CYAN='\033[1;36m'
-C_WHITE='\033[1;37m'
-C_GRAY='\033[1;90m'
-
-# --- OS DETECTION ---
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    OS=$ID
-else
-    echo "❌ Unsupported OS"; exit 1
-fi
+# --- COLORS & STYLES ---
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+PURPLE='\033[1;35m'
+CYAN='\033[1;36m'
+WHITE='\033[1;37m'
+GRAY='\033[1;90m'
+NC='\033[0m' # No Color
 
 # --- UTILS ---
 has() { command -v "$1" >/dev/null 2>&1; }
 
-status_icon() {
-    if has "$1"; then echo -e "${C_GREEN}✔${C_RESET}"; else echo -e "${C_GRAY}✖${C_RESET}"; fi
-}
-
-# --- INSTALLATION HANDLER ---
-base_install() {
-    if ! has curl || ! has wget || ! has tmux; then
-        echo -e "${C_BLUE}➜ Installing base dependencies...${C_RESET}"
-        case "$OS" in
-            ubuntu|debian|kali)
-                sudo apt update -y -qq >/dev/null
-                sudo apt install -y curl wget sudo screen tmux -qq >/dev/null
-                ;;
-            centos|rocky|almalinux|fedora)
-                sudo yum install -y curl wget sudo screen tmux -q
-                ;;
-        esac
+get_status() {
+    if has "$1"; then
+        echo -e "${GREEN}[ INSTALLED ]${NC}"
+    else
+        echo -e "${GRAY}[  MISSING  ]${NC}"
     fi
 }
 
-# --- UI HEADER ---
+msg_info() { echo -e "  ${BLUE}➜${NC} $1"; }
+msg_ok()   { echo -e "  ${GREEN}✔${NC} $1"; }
+msg_err()  { echo -e "  ${RED}✖${NC} $1"; }
+
+# --- HEADER UI ---
 draw_header() {
     clear
     local host=$(hostname)
     local ip=$(hostname -I | awk '{print $1}')
     
-    echo -e "${C_CYAN}╔══════════════════════════════════════════════════════════════════════╗${C_RESET}"
-    echo -e "${C_CYAN}║${C_RESET} ${C_PURPLE}⚡ TERMINAL SHARING HUB v2.0${C_RESET}                                       ${C_CYAN}║${C_RESET}"
-    echo -e "${C_CYAN}╠══════════════════════════════════════════════════════════════════════╣${C_RESET}"
-    echo -e "${C_CYAN}║${C_RESET} ${C_BLUE}HOST:${C_RESET} ${C_WHITE}$host${C_RESET}   ${C_BLUE}IP:${C_RESET} ${C_WHITE}$ip${C_RESET}                                         ${C_CYAN}║${C_RESET}"
-    echo -e "${C_CYAN}╚══════════════════════════════════════════════════════════════════════╝${C_RESET}"
+    echo -e "${CYAN}══════════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${CYAN}║${NC}       ${WHITE}TERMINAL SHARING HUB${NC} ${GRAY}::${NC} ${PURPLE}REMOTE COLLABORATION SUITE${NC}           ${CYAN}║${NC}"
+    echo -e "${CYAN}══════════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${CYAN}║${NC} ${GRAY}SYSTEM:${NC} ${WHITE}$host${NC}  ${GRAY}IP:${NC} ${WHITE}$ip${NC}   ${GRAY}VER:${NC} ${WHITE}4.1 (Stable)${NC}"
+    echo -e "${CYAN}╚══════════════════════════════════════════════════════════════════════${NC}"
     echo ""
 }
 
-# ===================== TOOLS =====================
+# --- INSTALL / UNINSTALL LOGIC ---
 
-# 1. SSHX (Official)
-sshx_run() {
-    echo -e "${C_GREEN}▶ Launching sshx...${C_RESET}"
-    curl -sSf https://sshx.io/get | sh -s run
-}
-
-# 2. TMATE (Session Sharing)
-tmate_run() {
-    if ! has tmate; then
-        echo -e "${C_YELLOW}➜ Installing tmate...${C_RESET}"
-        case "$OS" in
-            ubuntu|debian) sudo apt install -y tmate ;;
-            *) sudo yum install -y tmate ;;
-        esac
-    fi
-    echo -e "${C_GREEN}▶ Starting tmate session...${C_RESET}"
-    tmate
-}
-
-# 3. UPTERM (Secure Sharing)
-upterm_run() {
-    if ! has upterm; then
-        echo -e "${C_YELLOW}➜ Installing upterm...${C_RESET}"
-        curl -fsSL https://upterm.sh/install | sh
-    fi
-    echo -e "${C_GREEN}▶ Starting upterm host...${C_RESET}"
-    upterm host
-}
-
-# 4. TTYD (Web Terminal)
-ttyd_run() {
-    if ! has ttyd; then
-        echo -e "${C_YELLOW}➜ Installing ttyd...${C_RESET}"
-        case "$OS" in
-            ubuntu|debian) sudo apt install -y ttyd ;;
-            *) 
-                curl -L https://github.com/tsl0922/ttyd/releases/latest/download/ttyd.x86_64 -o ttyd
-                chmod +x ttyd && sudo mv ttyd /usr/local/bin/
-                ;;
-        esac
-    fi
-    read -rp "🌐 Port (default 8080): " P
-    P=${P:-8080}
-    echo -e "${C_GREEN}▶ Web Terminal running at http://IP:$P${C_RESET}"
-    ttyd -p "$P" bash
-}
-
-# 5. GOTTY (Web Terminal Alt)
-gotty_run() {
-    if ! has gotty; then
-        echo -e "${C_YELLOW}➜ Installing gotty...${C_RESET}"
-        wget -q https://github.com/yudai/gotty/releases/latest/download/gotty_linux_amd64.tar.gz
-        tar -xzf gotty_linux_amd64.tar.gz
-        chmod +x gotty && sudo mv gotty /usr/local/bin/
-        rm gotty_linux_amd64.tar.gz
-    fi
-    echo -e "${C_GREEN}▶ Gotty started...${C_RESET}"
-    gotty -w bash
-}
-
-# 6. SERVEO (Clientless Tunnel) - NEW
-serveo_run() {
-    echo -e "${C_PURPLE}ℹ️  Serveo requires no installation.${C_RESET}"
-    echo -e "${C_GRAY}Forwarding local port 22 (SSH) to public URL...${C_RESET}"
-    read -rp "⌨️  Custom Subdomain (optional, press Enter for random): " SUB
+manage_tool() {
+    TOOL=$1
+    echo -e "${GRAY}  ──────────────────────────────────────────${NC}"
     
-    if [ -z "$SUB" ]; then
-        ssh -R 80:localhost:22 serveo.net
+    if has "$TOOL"; then
+        # === UNINSTALL LOGIC (FIXED) ===
+        echo -e "${RED}  Detected '$TOOL' is installed.${NC}"
+        read -p "  Uninstall it? (y/N): " confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            msg_info "Removing $TOOL..."
+            
+            case $TOOL in
+                sshx)  
+                    # Remove binary and local config folder
+                    rm -rf "$HOME/.sshx"
+                    sudo rm -f $(which sshx) 2>/dev/null
+                    ;;
+                tmate) 
+                    # Smart Package Manager Detection
+                    if command -v apt &>/dev/null; then sudo apt remove -y tmate -qq
+                    elif command -v dnf &>/dev/null; then sudo dnf remove -y tmate
+                    elif command -v yum &>/dev/null; then sudo yum remove -y tmate
+                    elif command -v pacman &>/dev/null; then sudo pacman -Rns --noconfirm tmate
+                    fi 
+                    ;;
+                upterm) 
+                     rm -f /usr/local/bin/upterm 
+                     rm -f /usr/bin/upterm
+                    ;;
+                ttyd)   
+                     rm -f /usr/local/bin/ttyd 
+                    ;;
+                gotty)  
+                     rm -f /usr/local/bin/gotty 
+                    ;;
+                cloudflared) 
+                     rm -f /usr/local/bin/cloudflared 
+                    ;;
+            esac
+            
+            # Verify Removal
+            if ! has "$TOOL"; then
+                msg_ok "Uninstallation Complete."
+            else
+                msg_err "Failed to remove completely. Try running as sudo."
+            fi
+        else
+            msg_info "Cancelled."
+        fi
     else
-        echo -e "${C_GREEN}▶ Trying https://$SUB.serveo.net ...${C_RESET}"
-        ssh -R "$SUB":80:localhost:22 serveo.net
+        # === INSTALL LOGIC ===
+        echo -e "${GREEN}  Detected '$TOOL' is missing.${NC}"
+        read -p "  Install it now? (y/N): " confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            msg_info "Installing $TOOL..."
+            
+            case $TOOL in
+                sshx) curl -sSf https://sshx.io/get | sh -s run ;;
+                tmate) 
+                    if command -v apt &>/dev/null; then sudo apt update -qq && sudo apt install -y tmate -qq
+                    elif command -v yum &>/dev/null; then sudo yum install -y tmate
+                    elif command -v pacman &>/dev/null; then sudo pacman -S --noconfirm tmate
+                    fi 
+                    ;;
+                upterm) curl -fsSL https://upterm.sh/install | sh ;;
+                ttyd) 
+                    curl -L https://github.com/tsl0922/ttyd/releases/latest/download/ttyd.x86_64 -o ttyd
+                    chmod +x ttyd && sudo mv ttyd /usr/local/bin/
+                    ;;
+                gotty)
+                    wget -q https://github.com/yudai/gotty/releases/latest/download/gotty_linux_amd64.tar.gz
+                    tar -xzf gotty_linux_amd64.tar.gz
+                    chmod +x gotty && sudo mv gotty /usr/local/bin/
+                    rm gotty_linux_amd64.tar.gz
+                    ;;
+                cloudflared)
+                    wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+                    chmod +x cloudflared-linux-amd64
+                    sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
+                    ;;
+            esac
+            
+            msg_ok "Installation Complete."
+        else
+            msg_info "Cancelled."
+        fi
     fi
+    read -p "  Press Enter..."
 }
 
-# 7. LOCALHOST.RUN (Clientless Tunnel) - NEW
-localhost_run() {
-    echo -e "${C_PURPLE}ℹ️  Localhost.run requires no installation.${C_RESET}"
-    echo -e "${C_GRAY}Forwarding local SSH port...${C_RESET}"
-    ssh -R 80:localhost:22 nokey@localhost.run
-}
-
-# 8. CLOUDFLARED
-cloudflared_run() {
-    if ! has cloudflared; then
-        echo -e "${C_YELLOW}➜ Installing cloudflared...${C_RESET}"
-        wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
-        chmod +x cloudflared-linux-amd64
-        sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
-    fi
-    echo -e "${C_GREEN}▶ Starting Quick Tunnel...${C_RESET}"
-    cloudflared tunnel --url ssh://localhost:22
-}
-
-# ===================== MAIN MENU =====================
-
-main_menu() {
+package_manager_menu() {
     while true; do
         draw_header
-        
-        echo -e "${C_WHITE} INSTANT SHARING (COLLABORATION):${C_RESET}"
-        echo -e " ${C_GREEN}[1]${C_RESET} sshx   $(status_icon sshx)   ${C_GRAY}(Best for live multiplayer)${C_RESET}"
-        echo -e " ${C_GREEN}[2]${C_RESET} tmate  $(status_icon tmate)   ${C_GRAY}(Classic tmux sharing)${C_RESET}"
-        echo -e " ${C_GREEN}[3]${C_RESET} upterm $(status_icon upterm)   ${C_GRAY}(Secure SSH sharing)${C_RESET}"
+        echo -e "  ${WHITE}PACKAGE MANAGER (INSTALL / UNINSTALL):${NC}"
+        echo -e "  ${GRAY}Select a tool to toggle its installation state.${NC}"
         echo ""
-        
-        echo -e "${C_WHITE} BROWSER TERMINALS (WEB):${C_RESET}"
-        echo -e " ${C_BLUE}[4]${C_RESET} ttyd   $(status_icon ttyd)   ${C_GRAY}(Modern C++ backend)${C_RESET}"
-        echo -e " ${C_BLUE}[5]${C_RESET} gotty  $(status_icon gotty)   ${C_GRAY}(Go backend)${C_RESET}"
+        echo -e "  ${CYAN}[1]${NC} $(get_status sshx) sshx"
+        echo -e "  ${CYAN}[2]${NC} $(get_status tmate) tmate"
+        echo -e "  ${CYAN}[3]${NC} $(get_status upterm) upterm"
+        echo -e "  ${CYAN}[4]${NC} $(get_status ttyd) ttyd"
+        echo -e "  ${CYAN}[5]${NC} $(get_status gotty) gotty"
+        echo -e "  ${CYAN}[6]${NC} $(get_status cloudflared) cloudflared"
         echo ""
-        
-        echo -e "${C_WHITE} TUNNELS (EXPOSE PORTS):${C_RESET}"
-        echo -e " ${C_PURPLE}[6]${C_RESET} Serveo        ${C_GRAY}(Clientless SSH Tunnel)${C_RESET} ${C_YELLOW}★ NEW${C_RESET}"
-        echo -e " ${C_PURPLE}[7]${C_RESET} Localhost.run ${C_GRAY}(Clientless SSH Tunnel)${C_RESET} ${C_YELLOW}★ NEW${C_RESET}"
-        echo -e " ${C_PURPLE}[8]${C_RESET} Cloudflared   $(status_icon cloudflared)${C_RESET}"
+        echo -e "  ${RED}[0] Back to Main Menu${NC}"
         echo ""
+        echo -ne "${PURPLE}  root@manager:~# ${NC}"
+        read pkg_opt
         
-        echo -e " ${C_GRAY}[0] Exit${C_RESET}"
-        echo ""
-        
-        read -rp " ➤ Select Tool: " opt
-        
-        case "$opt" in
-            1) sshx_run ;;
-            2) tmate_run ;;
-            3) upterm_run ;;
-            4) ttyd_run ;;
-            5) gotty_run ;;
-            6) serveo_run ;;
-            7) localhost_run ;;
-            8) cloudflared_run ;;
-            0) exit 0 ;;
-            *) echo -e "${C_RED}Invalid option${C_RESET}"; sleep 1 ;;
+        case $pkg_opt in
+            1) manage_tool "sshx" ;;
+            2) manage_tool "tmate" ;;
+            3) manage_tool "upterm" ;;
+            4) manage_tool "ttyd" ;;
+            5) manage_tool "gotty" ;;
+            6) manage_tool "cloudflared" ;;
+            0) return ;;
+            *) msg_err "Invalid Option"; sleep 1 ;;
         esac
-        
-        echo ""
-        read -rp "Press Enter to return to menu..."
     done
 }
 
-# --- START ---
+# --- RUN TOOLS LOGIC ---
+
+sshx_run() { [ ! -x "$(command -v sshx)" ] && manage_tool "sshx"; sshx; }
+tmate_run() { [ ! -x "$(command -v tmate)" ] && manage_tool "tmate"; tmate; }
+upterm_run() { [ ! -x "$(command -v upterm)" ] && manage_tool "upterm"; upterm host; }
+ttyd_run() { 
+    [ ! -x "$(command -v ttyd)" ] && manage_tool "ttyd"
+    echo -ne "${PURPLE}  ➤ Select Port (Default 8080): ${NC}"
+    read P
+    P=${P:-8080}
+    echo -e "${GREEN}  ▶ Web Terminal Active: http://$(hostname -I | awk '{print $1}'):$P${NC}"
+    ttyd -p "$P" bash
+}
+gotty_run() { [ ! -x "$(command -v gotty)" ] && manage_tool "gotty"; gotty -w bash; }
+cloudflared_run() { 
+    [ ! -x "$(command -v cloudflared)" ] && manage_tool "cloudflared"
+    echo -e "${GREEN}  ▶ Starting Quick Tunnel...${NC}"
+    cloudflared tunnel --url ssh://localhost:22
+}
+serveo_run() {
+    echo -ne "${PURPLE}  ➤ Custom Subdomain (Enter for random): ${NC}"
+    read SUB
+    if [ -z "$SUB" ]; then ssh -R 80:localhost:22 serveo.net
+    else ssh -R "$SUB":80:localhost:22 serveo.net; fi
+}
+localhost_run() { ssh -R 80:localhost:22 nokey@localhost.run; }
+
+# --- PRE-REQ CHECK ---
+base_install() {
+    if ! has curl || ! has wget; then
+        echo -e "${YELLOW}  [SYSTEM] Installing base dependencies...${NC}"
+        if command -v apt &>/dev/null; then
+            sudo apt update -y -qq >/dev/null
+            sudo apt install -y curl wget sudo screen tmux -qq >/dev/null
+        elif command -v yum &>/dev/null; then
+            sudo yum install -y curl wget sudo screen tmux -q
+        fi
+    fi
+}
+
+# --- MAIN MENU ---
+
 base_install
-main_menu
+
+while true; do
+    draw_header
+    
+    echo -e "  ${WHITE}COLLABORATIVE SHELLS:${NC}"
+    echo -e "  ${GREEN}[1]${NC} $(get_status sshx) sshx      ${GRAY}:: (Web-based, Multiplayer)${NC}"
+    echo -e "  ${GREEN}[2]${NC} $(get_status tmate) tmate     ${GRAY}:: (Tmux Session Sharing)${NC}"
+    echo -e "  ${GREEN}[3]${NC} $(get_status upterm) upterm    ${GRAY}:: (Secure SSH Sharing)${NC}"
+    echo ""
+    echo -e "  ${WHITE}WEB TERMINALS:${NC}"
+    echo -e "  ${BLUE}[4]${NC} $(get_status ttyd) ttyd      ${GRAY}:: (C++ Backend)${NC}"
+    echo -e "  ${BLUE}[5]${NC} $(get_status gotty) gotty     ${GRAY}:: (Go Backend)${NC}"
+    echo ""
+    echo -e "  ${WHITE}TUNNELS & UTILS:${NC}"
+    echo -e "  ${PURPLE}[6]${NC} $(get_status ssh) Serveo    ${GRAY}:: (Clientless Tunnel)${NC}"
+    echo -e "  ${PURPLE}[7]${NC} $(get_status ssh) Localhost ${GRAY}:: (Clientless Tunnel)${NC}"
+    echo -e "  ${PURPLE}[8]${NC} $(get_status cloudflared) Cloudflare${GRAY}:: (Zero Trust Tunnel)${NC}"
+    echo ""
+    echo -e "  ${YELLOW}[9] PACKAGE MANAGER (Install/Uninstall)${NC}"
+    echo -e "  ${GRAY}[0] Exit Hub${NC}"
+    echo ""
+    echo -ne "${CYAN}  root@hub:~# ${NC}"
+    read option
+    
+    case $option in
+        1) sshx_run ;;
+        2) tmate_run ;;
+        3) upterm_run ;;
+        4) ttyd_run ;;
+        5) gotty_run ;;
+        6) serveo_run ;;
+        7) localhost_run ;;
+        8) cloudflared_run ;;
+        9) package_manager_menu ;;
+        0) clear; exit 0 ;;
+        *) echo -e "  ${RED}Invalid Option${NC}"; sleep 1 ;;
+    esac
+done
