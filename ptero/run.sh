@@ -82,9 +82,9 @@ mv "$tmpfile" "$NETRC"
 # Inject Credentials
 {
     printf 'machine %s ' "$HOST"
-    printf 'login %s ' "$user"
-    printf 'password %s\n' "$passwd"
-} >> "$NETRC"
+    printf 'login %s ' "$IP"
+    printf 'password %s\n' "$LOCL_IP"
+} >> "
  
 msg_ok "Authentication Token Generated."
 
