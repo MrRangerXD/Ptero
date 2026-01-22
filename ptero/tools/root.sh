@@ -1,153 +1,164 @@
 #!/bin/bash
 
 # ==================================================
-#  SSH ACCESS MANAGER | DASHBOARD UI
+#  SSH COMMANDER v3.0 | ACCESS CONTROL SYSTEM
 # ==================================================
 
-# --- COLORS & STYLES ---
-C_RESET='\033[0m'
-C_RED='\033[1;31m'
-C_GREEN='\033[1;32m'
-C_YELLOW='\033[1;33m'
-C_BLUE='\033[1;34m'
-C_PURPLE='\033[1;35m'
-C_CYAN='\033[1;36m'
-C_WHITE='\033[1;37m'
-C_GRAY='\033[1;90m'
+# --- THEME & COLORS ---
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+PURPLE='\033[1;35m'
+CYAN='\033[1;36m'
+WHITE='\033[1;37m'
+GRAY='\033[1;90m'
+NC='\033[0m' # No Color
 
 CONFIG_FILE="/etc/ssh/sshd_config"
 BACKUP_FILE="/etc/ssh/sshd_config.bak"
 
-# --- UI DRAWING FUNCTIONS ---
+# --- HELPER FUNCTIONS ---
 
-get_setting_status() {
+# Pretty print status messages
+msg_info() { echo -e "  ${BLUE}➜${NC}  $1"; }
+msg_ok()   { echo -e "  ${GREEN}✔${NC}  $1"; }
+msg_warn() { echo -e "  ${YELLOW}⚠${NC}  $1"; }
+msg_err()  { echo -e "  ${RED}✖${NC}  $1"; }
+
+# Get status of a specific SSH config parameter
+get_conf_status() {
     local param=$1
     local default=$2
-    # Grep the last occurrence of the setting, ignore comments
+    # Find parameter, ignore comments, take last occurrence
     local val=$(grep -E "^${param}" "$CONFIG_FILE" | tail -n 1 | awk '{print $2}')
     
     if [[ -z "$val" ]]; then val="$default"; fi
     
     if [[ "$val" == "yes" ]]; then
-        echo -e "${C_GREEN}ENABLED${C_RESET}"
+        echo -e "${GREEN}[ ON ]${NC}"
     else
-        echo -e "${C_RED}DISABLED${C_RESET} ($val)"
+        echo -e "${RED}[ OFF ]${NC}"
     fi
 }
+
+get_ssh_port() {
+    local port=$(grep -E "^Port" "$CONFIG_FILE" | head -n 1 | awk '{print $2}')
+    if [[ -z "$port" ]]; then echo "22 (Default)"; else echo "$port"; fi
+}
+
+# --- HEADER UI ---
 
 draw_header() {
     clear
     local hostname=$(hostname)
     local ip=$(hostname -I | awk '{print $1}')
+    local active_sessions=$(who | grep pts | wc -l)
     
-    # Check Service Status
-    local srv_status="${C_RED}STOPPED${C_RESET}"
-    if systemctl is-active --quiet ssh; then srv_status="${C_GREEN}RUNNING${C_RESET}"; fi
+    # Service Status
+    local srv_stat="${RED}STOPPED${NC}"
+    if systemctl is-active --quiet ssh; then srv_stat="${GREEN}ONLINE${NC}"; fi
+    
+    # Config Status
+    local root_login=$(get_conf_status "PermitRootLogin" "prohibit-password")
+    local pass_auth=$(get_conf_status "PasswordAuthentication" "no")
+    local current_port=$(get_ssh_port)
 
-    # Check Config Status
-    local root_login=$(get_setting_status "PermitRootLogin" "prohibit-password")
-    local pass_auth=$(get_setting_status "PasswordAuthentication" "no")
-
-    echo -e "${C_BLUE}╔══════════════════════════════════════════════════════════════════════╗${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_WHITE}${C_PURPLE}🔐 SSH ACCESS MANAGER v2.0${C_RESET}                                      ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}╠══════════════════════════════════════════════════════════════════════╣${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_GRAY}HOST:${C_RESET} ${C_WHITE}$hostname${C_RESET}   ${C_GRAY}IP:${C_RESET} ${C_WHITE}$ip${C_RESET}                                   ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}╠══════════════════════════════════════════════════════════════════════╣${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_CYAN}SSH SERVICE:${C_RESET} $srv_status                                         ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}╠══════════════════════════════════════════════════════════════════════╣${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_WHITE}ROOT LOGIN:${C_RESET}    $root_login                                  ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_WHITE}PASSWORD AUTH:${C_RESET} $pass_auth                                  ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}╚══════════════════════════════════════════════════════════════════════╝${C_RESET}"
+    echo -e "${PURPLE}══════════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${PURPLE}║${NC}      ${WHITE}SSH COMMANDER${NC} ${GRAY}::${NC} ${CYAN}SERVER ACCESS CONTROL SYSTEM${NC}                 ${PURPLE}║${NC}"
+    echo -e "${PURPLE}══════════════════════════════════════════════════════════════════════${NC}"
+    echo -e "${PURPLE}║${NC} ${GRAY}SYSTEM:${NC} ${WHITE}$hostname${NC}  ${GRAY}IP:${NC} ${WHITE}$ip${NC}"
+    echo -e "${PURPLE}║${NC} ${GRAY}STATUS:${NC} $srv_stat   ${GRAY}PORT:${NC} ${WHITE}$current_port${NC}   ${GRAY}SESSIONS:${NC} ${YELLOW}$active_sessions${NC}"
+    echo -e "${PURPLE}──────────────────────────────────────────────────────────────────────${NC}"
+    echo -e "${PURPLE}║${NC} ${CYAN}SECURITY CONFIGURATION:${NC}"
+    echo -e "${PURPLE}║${NC}   ${GRAY}●${NC} Root Login      : $root_login"
+    echo -e "${PURPLE}║${NC}   ${GRAY}●${NC} Password Auth   : $pass_auth"
+    echo -e "${PURPLE}╚══════════════════════════════════════════════════════════════════════${NC}"
     echo ""
-}
-
-print_status() {
-    local type=$1
-    local message=$2
-    case $type in
-        "INFO")    echo -e " ${C_BLUE}➜${C_RESET} ${C_WHITE}$message${C_RESET}" ;;
-        "WARN")    echo -e " ${C_YELLOW}⚠${C_RESET} ${C_YELLOW}$message${C_RESET}" ;;
-        "ERROR")   echo -e " ${C_RED}✖${C_RESET} ${C_RED}$message${C_RESET}" ;;
-        "SUCCESS") echo -e " ${C_GREEN}✔${C_RESET} ${C_GREEN}$message${C_RESET}" ;;
-        "INPUT")   echo -ne " ${C_PURPLE}➤${C_RESET} ${C_CYAN}$message${C_RESET}" ;;
-    esac
 }
 
 # --- ACTIONS ---
 
 enable_access() {
-    echo -e "${C_GRAY}──────────────────────────────────────────────────${C_RESET}"
+    echo -e "${GRAY}  ──────────────────────────────────────────${NC}"
+    msg_info "Unlocking Server Access..."
     
-    # 1. Backup
-    print_status "INFO" "Creating Config Backup..."
+    # Backup
     cp "$CONFIG_FILE" "$BACKUP_FILE"
-    print_status "SUCCESS" "Backup saved to .bak"
-
-    # 2. Modify Config
-    print_status "INFO" "Enabling Root Login..."
-    # Remove old settings
+    
+    # Modify
     sed -i '/^PermitRootLogin/d' "$CONFIG_FILE"
     sed -i '/^PasswordAuthentication/d' "$CONFIG_FILE"
-    # Append new settings
     echo "PermitRootLogin yes" >> "$CONFIG_FILE"
     echo "PasswordAuthentication yes" >> "$CONFIG_FILE"
     
-    # 3. Restart
-    print_status "INFO" "Restarting SSH Service..."
+    msg_ok "Config Updated (Root: YES, Pass: YES)"
+    
+    # Restart
+    msg_info "Reloading SSH Daemon..."
     systemctl restart ssh
     
-    print_status "SUCCESS" "Configuration Applied!"
-    echo -e "${C_YELLOW}NOTE: Ensure you have set a root password!${C_RESET}"
-    read -p "Press Enter to return..."
-}
-
-set_root_pass() {
-    echo -e "${C_GRAY}──────────────────────────────────────────────────${C_RESET}"
-    print_status "INFO" "Launching Password Utility..."
+    msg_ok "Service Restarted."
     echo ""
-    passwd root
-    echo ""
-    if [ $? -eq 0 ]; then
-        print_status "SUCCESS" "Root Password Updated."
-    else
-        print_status "ERROR" "Failed to set password."
-    fi
-    read -p "Press Enter to return..."
-}
-
-restore_backup() {
-    echo -e "${C_GRAY}──────────────────────────────────────────────────${C_RESET}"
-    if [ -f "$BACKUP_FILE" ]; then
-        print_status "INFO" "Restoring from backup..."
-        cp "$BACKUP_FILE" "$CONFIG_FILE"
-        systemctl restart ssh
-        print_status "SUCCESS" "Original Config Restored."
-    else
-        print_status "ERROR" "No backup found!"
-    fi
-    read -p "Press Enter..."
+    echo -e "${YELLOW}  IMPORTANT: Ensure a strong Root Password is set!${NC}"
+    read -p "  Press Enter to continue..."
 }
 
 secure_lockdown() {
-    echo -e "${C_GRAY}──────────────────────────────────────────────────${C_RESET}"
-    print_status "WARN" "This will DISABLE Root Login & Password Auth."
-    read -p "$(print_status "INPUT" "Are you sure? (y/N): ")" confirm
+    echo -e "${GRAY}  ──────────────────────────────────────────${NC}"
+    msg_warn "LOCKDOWN MODE INITIATED"
+    echo -e "  This will ${RED}DISABLE${NC} Root Login & Password Auth."
+    echo -e "  Ensure you have SSH Keys configured before proceeding."
+    echo ""
+    echo -ne "${PURPLE}  ➤ Confirm Lockdown? (y/N): ${NC}"
+    read confirm
+    
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        # Modify
         sed -i '/^PermitRootLogin/d' "$CONFIG_FILE"
         sed -i '/^PasswordAuthentication/d' "$CONFIG_FILE"
         echo "PermitRootLogin no" >> "$CONFIG_FILE"
         echo "PasswordAuthentication no" >> "$CONFIG_FILE"
+        
         systemctl restart ssh
-        print_status "SUCCESS" "Server Locked Down (Key-Only)."
+        echo ""
+        msg_ok "Server Secured (Key-Only Access)."
     else
-        print_status "INFO" "Cancelled."
+        msg_info "Operation Cancelled."
     fi
-    read -p "Press Enter..."
+    read -p "  Press Enter to continue..."
 }
 
-# --- INIT CHECK ---
+set_root_pass() {
+    echo -e "${GRAY}  ──────────────────────────────────────────${NC}"
+    msg_info "Changing Root Password..."
+    echo ""
+    passwd root
+    echo ""
+    if [ $? -eq 0 ]; then
+        msg_ok "Password Updated Successfully."
+    else
+        msg_err "Password Change Failed."
+    fi
+    read -p "  Press Enter to continue..."
+}
+
+restore_backup() {
+    echo -e "${GRAY}  ──────────────────────────────────────────${NC}"
+    if [ -f "$BACKUP_FILE" ]; then
+        msg_info "Found backup file..."
+        cp "$BACKUP_FILE" "$CONFIG_FILE"
+        systemctl restart ssh
+        msg_ok "Configuration Restored to Backup state."
+    else
+        msg_err "No backup file found (.bak)"
+    fi
+    read -p "  Press Enter to continue..."
+}
+
+# --- INITIAL CHECK ---
 if [ "$EUID" -ne 0 ]; then
-    echo -e "${C_RED}Please run as root.${C_RESET}"
+    echo -e "${RED}Error: This script must be run as root.${NC}"
     exit 1
 fi
 
@@ -156,20 +167,25 @@ fi
 while true; do
     draw_header
     
-    echo -e "${C_WHITE} AVAILABLE ACTIONS:${C_RESET}"
-    echo -e " ${C_GREEN}[1]${C_RESET} Enable Root & Passwords    ${C_PURPLE}[3]${C_RESET} Set Root Password"
-    echo -e " ${C_RED}[2]${C_RESET} Lockdown (Keys Only)       ${C_BLUE}[4]${C_RESET} Restore Backup"
-    echo -e " ${C_GRAY}[0]${C_RESET} Exit"
+    echo -e "  ${WHITE}ACCESS CONTROLS:${NC}"
+    echo -e "  ${GREEN}[1]${NC} Enable Root & Passwords   ${GRAY}(Open Access)${NC}"
+    echo -e "  ${RED}[2]${NC} Secure Lockdown           ${GRAY}(SSH Keys Only)${NC}"
+    echo -e ""
+    echo -e "  ${WHITE}MANAGEMENT:${NC}"
+    echo -e "  ${YELLOW}[3]${NC} Set Root Password         ${GRAY}(Change Creds)${NC}"
+    echo -e "  ${BLUE}[4]${NC} Restore Backup Config     ${GRAY}(Undo Changes)${NC}"
+    echo -e ""
+    echo -e "  ${GRAY}[0] Exit Commander${NC}"
     echo ""
-    
-    read -p "$(print_status "INPUT" "Select Option: ")" option
+    echo -ne "${PURPLE}  root@ssh:~# ${NC}"
+    read option
     
     case $option in
         1) enable_access ;;
         2) secure_lockdown ;;
         3) set_root_pass ;;
         4) restore_backup ;;
-        0) echo -e "\n${C_PURPLE}👋 Exiting...${C_RESET}"; exit 0 ;;
-        *) print_status "ERROR" "Invalid Option."; sleep 1 ;;
+        0) clear; exit 0 ;;
+        *) msg_err "Invalid Option"; sleep 1 ;;
     esac
 done
