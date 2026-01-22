@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ====================================================
-#       PTERODACTYL CONTROL CENTER v2.0
+#       PTERODACTYL CONTROL CENTER v2.1
 # ====================================================
 
 # --- COLORS & STYLING ---
@@ -28,10 +28,10 @@ show_header() {
 }
 
 status_msg() {
-    # $1 = Type (OK, ERR, INFO), $2 = Message
+    # $1 = Type (OK, ERR, INFO, WAIT), $2 = Message
     case $1 in
-        "OK") echo -e "  [${GREEN} ✔ ${NC}] $2" ;;
-        "ERR") echo -e "  [${RED} ✘ ${NC}] $2" ;;
+        "OK")   echo -e "  [${GREEN} ✔ ${NC}] $2" ;;
+        "ERR")  echo -e "  [${RED} ✘ ${NC}] $2" ;;
         "INFO") echo -e "  [${CYAN} ➜ ${NC}] $2" ;;
         "WAIT") echo -e "  [${YELLOW} ⏳ ${NC}] $2" ;;
     esac
@@ -163,6 +163,7 @@ update_panel() {
 # ===================== MAIN MENU =====================
 while true; do
     clear
+    
     # Banner
     echo -e "${PURPLE}  ____  _                     _            _         _ ${NC}"
     echo -e "${PURPLE} |  _ \| |_ ___ _ __ ___   __| | __ _  ___| |_ _   _| |${NC}"
@@ -171,15 +172,26 @@ while true; do
     echo -e "${PURPLE} |_|    \__\___|_|  \___/ \__,_|\__,_|\___|\__|\__, |_|${NC}"
     echo -e "${PURPLE}                                               |___/   ${NC}"
     echo -e ""
+    
     echo -e "${CYAN} ┌───────────────────────────────────────────────────────┐${NC}"
-    echo -e "${CYAN} │${NC} ${BOLD}${WHITE}SELECT AN ACTION${NC}                                      ${CYAN}│${NC}"
+
+    # --- CHECK INSTALL STATUS ---
+    if [ -d "/var/www/pterodactyl" ]; then
+        # Green "INSTALLED" message
+        echo -e "${CYAN} │${NC} ${BOLD}${WHITE}PANEL STATUS:${NC} ${GREEN}INSTALLED ✔${NC}                                 ${CYAN}│${NC}"
+    else
+        # Red "NOT INSTALLED" message
+        echo -e "${CYAN} │${NC} ${BOLD}${WHITE}PANEL STATUS:${NC} ${RED}NOT INSTALLED ✘${NC}                             ${CYAN}│${NC}"
+    fi
+
     echo -e "${CYAN} ├───────────────────────────────────────────────────────┤${NC}"
-    echo -e "${CYAN} │${NC}  ${GREEN}[1]${NC} Install Panel     ${GRAY}:: (Fresh Install)${NC}             ${CYAN}│${NC}"
-    echo -e "${CYAN} │${NC}  ${GREEN}[2]${NC} Create User       ${GRAY}:: (Add Admin/User)${NC}            ${CYAN}│${NC}"
-    echo -e "${CYAN} │${NC}  ${YELLOW}[3]${NC} Update Panel      ${GRAY}:: (Latest Release)${NC}            ${CYAN}│${NC}"
-    echo -e "${CYAN} │${NC}  ${RED}[4]${NC} Uninstall Panel   ${GRAY}:: (Remove Data)${NC}               ${CYAN}│${NC}"
     echo -e "${CYAN} │${NC}                                                       ${CYAN}│${NC}"
-    echo -e "${CYAN} │${NC}  ${WHITE}[5] Exit System${NC}                                      ${CYAN}│${NC}"
+    echo -e "${CYAN} │${NC}  ${GREEN}[1]${NC} Install Panel     ${GRAY}:: (Fresh Install)${NC}          ${CYAN}│${NC}"
+    echo -e "${CYAN} │${NC}  ${GREEN}[2]${NC} Create User       ${GRAY}:: (Add Admin/User)${NC}        ${CYAN}│${NC}"
+    echo -e "${CYAN} │${NC}  ${YELLOW}[3]${NC} Update Panel      ${GRAY}:: (Latest Release)${NC}        ${CYAN}│${NC}"
+    echo -e "${CYAN} │${NC}  ${RED}[4]${NC} Uninstall Panel   ${GRAY}:: (Remove Data)${NC}           ${CYAN}│${NC}"
+    echo -e "${CYAN} │${NC}                                                       ${CYAN}│${NC}"
+    echo -e "${CYAN} │${NC}  ${WHITE}[5] Exit System${NC}                                   ${CYAN}│${NC}"
     echo -e "${CYAN} └───────────────────────────────────────────────────────┘${NC}"
     echo ""
     echo -ne "${BOLD}${WHITE}  root@ptero:~# ${NC}"
