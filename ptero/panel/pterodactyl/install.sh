@@ -3,7 +3,20 @@
 # ==========================================
 #  CYBERPUNK UI THEME v2
 # ==========================================
+C_RESET="\e[0m"
+C_RED="\e[1;31m"
+C_GREEN="\e[1;32m"
+C_YELLOW="\e[1;33m"
+C_BLUE="\e[1;34m"
+C_PURPLE="\e[1;35m"
+C_CYAN="\e[1;36m"
+C_WHITE="\e[1;37m"
+C_GRAY="\e[1;90m"
 
+line(){ echo -e "${C_GRAY}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_RESET}"; }
+step(){ echo -e "${C_BLUE}➜ $1${C_RESET}"; }
+ok(){ echo -e "${C_GREEN}✔ $1${C_RESET}"; }
+warn(){ echo -e "${C_YELLOW}⚠ $1${C_RESET}"; }
 # --- COLORS ---
 NEON_GREEN="\e[1;32m"
 NEON_CYAN="\e[1;36m"
