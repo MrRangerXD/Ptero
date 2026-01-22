@@ -52,31 +52,44 @@ draw_bottom() {
     echo -e "${B}╚════════════════════════════════════════════════════════════╝${N}"
 }
 
+# --- NEW HEADER UI ---
 header() {
     clear
-    draw_top
-    echo -e "${B}║${W}${BOLD}              🚀 MACK CONTROL PANEL v3.0                    ${B}║${N}"
-    echo -e "${B}║${GR}             Server Management Automation                   ${B}║${N}"
-    draw_line
-    # Auto-Detected Info Dashboard
-    echo -e "${B}║${C} 🖥️  SYSTEM : ${W}${OS_NAME:0:36} ${B}║${N}"
-    echo -e "${B}║${G} 🌐 PUBLIC : ${W}${PUBLIC_IP:-Detecting...}                   ${B}║${N}"
-    echo -e "${B}║${Y} 🏠 LOCAL  : ${W}${LOCAL_IP:-Detecting...}                   ${B}║${N}"
-    echo -e "${B}║${M} 🧠 MEMORY : ${W}${RAM_USED:-Checking...}                     ${B}║${N}"
-    draw_line
+    # Top Border
+    echo -e "${B} ╔════════════════════════════════════════════════════════════╗${N}"
+    
+    # Title Section
+    echo -e "${B} ║${W}${BOLD}   ⚡ MACK CONTROL PANEL v3.5 ${GR}::${C} SERVER AUTOMATION      ${B}║${N}"
+    
+    # Separator
+    echo -e "${B} ╠════════════════════════════════════════════════════════════╣${N}"
+    
+    # Stats Dashboard (Formatted with printf for perfect alignment)
+    # Row 1: OS and Public IP
+    printf "${B} ║${GR}  OS   :${W} %-23s ${GR}WAN:${W} %-15s ${B}║${N}\n" "${OS_NAME:0:20}" "${PUBLIC_IP}"
+    
+    # Row 2: RAM and Local IP
+    printf "${B} ║${GR}  RAM  :${W} %-23s ${GR}LAN:${W} %-15s ${B}║${N}\n" "${RAM_USED}" "${LOCAL_IP}"
+    
+    # Bottom Border
+    echo -e "${B} ╚════════════════════════════════════════════════════════════╝${N}"
+    echo ""
 }
 
+# --- NEW MENU UI ---
 show_menu() {
-    echo -e "${B}║${W}                    📋 MAIN MENU                            ${B}║${N}"
-    draw_line
-    echo -e "${B}║${C}  1.${W} 🔐 SSL Configuration       ${GR}(Certbot/Nginx)           ${B}║${N}"
-    echo -e "${B}║${G}  2.${W} 🚀 Install Wings           ${GR}(Nobita Script)           ${B}║${N}"
-    echo -e "${B}║${Y}  3.${W} ⚡ Auto-Setup              ${GR}(One-Click)               ${B}║${N}"
-    echo -e "${B}║${M}  4.${W} 🗄️ Database Manager        ${GR}(MySQL/MariaDB)         ${B}║${N}"
-    echo -e "${B}║${R}  5.${W} 🗑️ Uninstall               ${GR}(Remove Wings)            ${B}║${N}"
-    draw_line
-    echo -e "${B}║${R}  0.${W} 🚪 Exit System                                         ${B}║${N}"
-    draw_bottom
+    echo -e "${W}  AVAILABLE MODULES:${N}"
+    echo -e "${GR}  ──────────────────────────────────────────────────────────${N}"
+    
+    # Menu Items
+    echo -e "  ${B}[1]${N} ${C}SSL Configuration    ${GR}:: (Certbot/Nginx)${N}"
+    echo -e "  ${B}[2]${N} ${G}Install Wings        ${GR}:: (Nobita Script)${N}"
+    echo -e "  ${B}[3]${N} ${Y}Auto-Setup           ${GR}:: (One-Click)${N}"
+    echo -e "  ${B}[4]${N} ${M}Database Manager     ${GR}:: (MySQL/MariaDB)${N}"
+    echo -e "  ${B}[5]${N} ${R}Uninstall            ${GR}:: (Remove Wings)${N}"
+    
+    echo -e "${GR}  ──────────────────────────────────────────────────────────${N}"
+    echo -e "  ${B}[0]${N} ${W}Exit System${N}"
     echo ""
 }
 
@@ -128,6 +141,11 @@ uninstall_menu() {
     systemctl disable --now wings 2>/dev/null
     rm -f /etc/systemd/system/wings.service
     rm -rf /etc/pterodactyl /var/lib/pterodactyl /usr/local/bin/wings
+    systemctl disable --now wings 2>/dev/null
+    rm -f /etc/systemd/system/wings.service
+    rm -rf /etc/pterodactyl
+    rm -f /usr/local/bin/wings
+    rm -rf /var/lib/pterodactyl
     
     echo -e "${Y}➜ Pruning Docker...${N}"
     docker system prune -a -f 2>/dev/null
