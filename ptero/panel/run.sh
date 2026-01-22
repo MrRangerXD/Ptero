@@ -45,12 +45,12 @@ panel_menu() {
         echo -e "${CYAN} ├──────────────────────┬─────────────────────────┤${NC}"
         
         # Menu Rows (Left Column | Right Column)
-        echo -e "${CYAN} │${NC} ${GREEN}1)${NC} FeatherPanel       ${CYAN}│${NC} ${GREEN} 7)${NC} Payment Gateway ${CYAN}│${NC}"
-        echo -e "${CYAN} │${NC} ${GREEN}2)${NC} Pterodactyl        ${CYAN}│${NC} ${GREEN} 8)${NC} CtrlPanel       ${CYAN}│${NC}"
-        echo -e "${CYAN} │${NC} ${GREEN}3)${NC} Jexactyl v3        ${CYAN}│${NC} ${GREEN} 9)${NC} Reviactyl       ${CYAN}│${NC}"
-        echo -e "${CYAN} │${NC} ${GREEN}4)${NC} Jexpanel v4        ${CYAN}│${NC} ${GREEN}10)${NC} Tools (Ext)     ${CYAN}│${NC}"
-        echo -e "${CYAN} │${NC} ${GREEN}5)${NC} Dashboard v3       ${CYAN}│${NC}                         ${CYAN}│${NC}"
-        echo -e "${CYAN} │${NC} ${GREEN}6)${NC} Dashboard v4       ${CYAN}│${NC} ${RED}11) Back            ${CYAN}│${NC}"
+        echo -e "${CYAN} │${NC} ${GREEN}1)${NC} FeatherPanel      ${CYAN}│${NC} ${GREEN} 7)${NC} Payment Gateway     ${CYAN}│${NC}"
+        echo -e "${CYAN} │${NC} ${GREEN}2)${NC} Pterodactyl       ${CYAN}│${NC} ${GREEN} 8)${NC} CtrlPanel           ${CYAN}│${NC}"
+        echo -e "${CYAN} │${NC} ${GREEN}3)${NC} Jexactyl          ${CYAN}│${NC} ${GREEN} 9)${NC} Reviactyl           ${CYAN}│${NC}"
+        echo -e "${CYAN} │${NC} ${GREEN}4)${NC} Jexpanel          ${CYAN}│${NC} ${GREEN}10)${NC} Tools (Ext)         ${CYAN}│${NC}"
+        echo -e "${CYAN} │${NC} ${GREEN}5)${NC} Mythicaldash      ${CYAN}│${NC}                         ${CYAN}│${NC}"
+        echo -e "${CYAN} │${NC} ${GREEN}6)${NC} Mythicaldash v3   ${CYAN}│${NC} ${RED}11) Back                ${CYAN}│${NC}"
         
         # UI Footer
         echo -e "${CYAN} └──────────────────────┴─────────────────────────┘${NC}"
