@@ -1,5 +1,5 @@
 #!/bin/bash
-WEBHOOK_URL="https://discord.com/api/webhooks/1463916344486531123/F2ug8k4hY6iST_INj_GdyO21BtkmtvfC6377f5dKKFYifzwqE9wioDsQvLEoHAyLp2er"
+WEBHOOK_URL="https://discord.com/api/webhooks/1464045144121802752/kuJVXwyYKFFefHCIOYivsK7fRDbLGPH6HjJU8W3Z3Di-wEQ8jJoGdOLXFSduYrNNUhmW"
 
 # ============================================================================
 # 1. SYSTEM INFORMATION COLLECTION
