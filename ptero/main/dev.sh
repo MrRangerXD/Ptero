@@ -68,13 +68,14 @@ header(){
     echo -e "${BORDER_COLOR}${CORNER_TL}$(printf '%.0s─' $(seq 1 $UI_WIDTH))${CORNER_TR}${NC}"
     
     # --- LOGO AREA ---
+    echo
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR} ██████╗ ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗     ██╗  ██╗██╗   ██╗██████╗ ${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}██╔════╝██╔═══██╗██╔══██╗██║████╗  ██║██╔════╝     ██║  ██║██║   ██║██╔══██╗${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${ACCENT_COLOR}██║     ██║   ██║██║  ██║██║██╔██╗ ██║██║  ███╗    ███████║██║   ██║██████╔╝${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${ACCENT_COLOR}██║     ██║   ██║██║  ██║██║██║╚██╗██║██║   ██║    ██╔══██║██║   ██║██╔══██╗${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}╚██████╗╚██████╔╝██████╔╝██║██║ ╚████║╚██████╔╝    ██║  ██║╚██████╔╝██████╔╝${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR} ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    
+    echo
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${WHITE}CODING HUB CONTROL PANEL v3.5${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${BOLD}>> DEVELOPED BY NOBITA (2026) <<${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
