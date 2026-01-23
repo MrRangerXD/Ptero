@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==================================================
-#  DEV ENVIRONMENT MANAGER | v3.0
+#   DEV ENVIRONMENT MANAGER | v3.0
 # ==================================================
 
 # --- COLORS & STYLES ---
@@ -15,16 +15,7 @@ pause() { echo; read -p "↩ Press Enter to return..." _; }
 draw_header() {
     clear
     
-    # 1. Define Colors (if not already defined globally)
-    local C='\033[0;36m'      # Cyan (Border)
-    local W='\033[1;37m'      # White (Labels)
-    local M='\033[1;35m'      # Magenta (Section Headers)
-    local R='\033[0;31m'      # Red
-    local G='\033[0;32m'      # Green
-    local N='\033[0m'         # No Color / Reset
-    local BOLD='\033[1m'
-
-    # 2. Gather Info
+    # Gather Info
     local user=$(whoami)
     local host=$(hostname)
     local time=$(date '+%H:%M')
@@ -33,22 +24,13 @@ draw_header() {
     local kvm_status="${R}NO ${N}"
     if [ -e /dev/kvm ]; then kvm_status="${G}YES${N}"; fi
 
-    # 3. Dynamic Formatting using printf
-    # We define a specific width for the columns so the right border always aligns.
-    # %-18s means "print a string, padded with spaces on the right to fill 18 chars"
-    
+    # Dynamic Formatting using printf
     echo -e "${C}╔══════════════════════════════════════════════════════════════╗${N}"
-    
-    # Title Line: Centered manually or calculated, keeping your design
     echo -e "${C}║${W}${BOLD}              🛠️  DEV ENVIRONMENT MANAGER v3.0               ${C}║${N}"
-    
     echo -e "${C}╠══════════════════════════════════════════════════════════════╣${N}"
     echo -e "${C}║${M} SYSTEM INFO:${N}                                                 ${C}║${N}"
     
-    # Data Lines: Using printf to ensure the border stays put
-    # The math: We have roughly 60 chars of internal width. 
-    # We split into two columns.
-    
+    # Data Lines
     printf "${C}║${W} • User :${N} %-20s ${W}• Host :${N} %-21s ${C}║${N}\n" "$user" "$host"
     printf "${C}║${W} • Time :${N} %-20s ${W}• KVM Support :${N} %-14b ${C}║${N}\n" "$time" "$kvm_status"
     
@@ -70,7 +52,6 @@ setup_idx() {
         cat <<EOF > dev.nix
 { pkgs, ... }: {
   channel = "stable-24.05";
-
   packages = with pkgs; [
     unzip
     openssh
@@ -81,22 +62,18 @@ setup_idx() {
     cloud-utils
     qemu
   ];
-
   env = {
     EDITOR = "nano";
   };
-
   idx = {
     extensions = [
       "Dart-Code.flutter"
       "Dart-Code.dart-code"
     ];
-
     workspace = {
       onCreate = { };
       onStart = { };
     };
-
     previews = {
       enable = false;
     };
@@ -128,7 +105,7 @@ panel_menu() {
     while true; do
         clear
         echo -e "${Y}╔════════════════════════════════════════╗${N}"
-        echo -e "${Y}║         CONTROL PANELS MENU            ║${N}"
+        echo -e "${Y}║          CONTROL PANELS MENU           ║${N}"
         echo -e "${Y}╚════════════════════════════════════════╝${N}"
         echo -e " ${G}[1]${N} Install Cockpit    ${C}(Web VM Manager)"
         echo -e " ${G}[2]${N} Install CasaOS     ${C}(Home Cloud UI)"
@@ -168,6 +145,9 @@ lxc_setup() {
         sudo usermod -aG lxd root
         bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/lxc.sh)
         echo -e "${G}✅ Installed. Please logout/login.${N}"
+    else
+        echo -e "${G}✔ LXD is already installed.${N}"
+    fi
     pause
 }
 
@@ -177,6 +157,9 @@ docker_setup() {
     if ! command -v docker &>/dev/null; then
         echo -e "${Y}Installing Docker...${N}"
         bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/Docker.sh)
+    else
+        echo -e "${G}✔ Docker is already installed.${N}"
+    fi
     pause
 }
 
