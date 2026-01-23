@@ -14,18 +14,44 @@ pause() { echo; read -p "↩ Press Enter to return..." _; }
 # --- HEADER ---
 draw_header() {
     clear
+    
+    # 1. Define Colors (if not already defined globally)
+    local C='\033[0;36m'      # Cyan (Border)
+    local W='\033[1;37m'      # White (Labels)
+    local M='\033[1;35m'      # Magenta (Section Headers)
+    local R='\033[0;31m'      # Red
+    local G='\033[0;32m'      # Green
+    local N='\033[0m'         # No Color / Reset
+    local BOLD='\033[1m'
+
+    # 2. Gather Info
     local user=$(whoami)
     local host=$(hostname)
     local time=$(date '+%H:%M')
-    local kvm_status="${R}NO${N}"
+    
+    # KVM Check
+    local kvm_status="${R}NO ${N}"
     if [ -e /dev/kvm ]; then kvm_status="${G}YES${N}"; fi
 
+    # 3. Dynamic Formatting using printf
+    # We define a specific width for the columns so the right border always aligns.
+    # %-18s means "print a string, padded with spaces on the right to fill 18 chars"
+    
     echo -e "${C}╔══════════════════════════════════════════════════════════════╗${N}"
-    echo -e "${C}║${W}${BOLD}              🛠️  DEV ENVIRONMENT MANAGER v3.0                 ${C}║${N}"
+    
+    # Title Line: Centered manually or calculated, keeping your design
+    echo -e "${C}║${W}${BOLD}              🛠️  DEV ENVIRONMENT MANAGER v3.0               ${C}║${N}"
+    
     echo -e "${C}╠══════════════════════════════════════════════════════════════╣${N}"
     echo -e "${C}║${M} SYSTEM INFO:${N}                                                 ${C}║${N}"
-    echo -e "${C}║${W} • User :${N} $user          ${W}• Host :${N} $host           ${C}║${N}"
-    echo -e "${C}║${W} • Time :${N} $time          ${W}• KVM Support :${N} $kvm_status    ${C}║${N}"
+    
+    # Data Lines: Using printf to ensure the border stays put
+    # The math: We have roughly 60 chars of internal width. 
+    # We split into two columns.
+    
+    printf "${C}║${W} • User :${N} %-20s ${W}• Host :${N} %-21s ${C}║${N}\n" "$user" "$host"
+    printf "${C}║${W} • Time :${N} %-20s ${W}• KVM Support :${N} %-14b ${C}║${N}\n" "$time" "$kvm_status"
+    
     echo -e "${C}╚══════════════════════════════════════════════════════════════╝${N}"
     echo
 }
