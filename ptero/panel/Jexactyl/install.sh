@@ -159,7 +159,6 @@ EOF
 
 ln -s /etc/nginx/sites-available/panel.conf /etc/nginx/sites-enabled/panel.conf || true
 nginx -t && systemctl restart nginx
-ok "Nginx online"
 
 # --- Queue Worker ---
 tee /etc/systemd/system/panel.service > /dev/null << 'EOF'
