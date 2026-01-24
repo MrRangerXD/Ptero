@@ -92,7 +92,7 @@ openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
 -subj "/C=NA/ST=NA/L=NA/O=NA/CN=Generic SSL Certificate" \
 -keyout privkey.pem -out fullchain.pem
 
-tee /etc/nginx/sites-available/pterodactyl.conf > /dev/null << EOF
+tee /etc/nginx/sites-available/panel.conf > /dev/null << EOF
 server {
     listen 80;
     server_name ${DOMAIN};
