@@ -228,6 +228,7 @@ echo ""
 msg_info "Generating Configuration File..."
 
 # Create Directory
+rm -f /etc/pterodactyl/config.yml
 mkdir -p /etc/pterodactyl
 
 # Write Config
