@@ -141,6 +141,7 @@ lxc_setup() {
     echo -e "${G}📦 LXC/LXD MANAGER${N}"
     if ! command -v lxc &>/dev/null; then
         echo -e "${Y}Installing LXD...${N}"
+        apt update && apt install lxd lxc-client curl wget -y
         sudo usermod -aG lxd $USER
         sudo usermod -aG lxd root
         bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/lxcc.sh)
