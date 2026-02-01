@@ -57,6 +57,7 @@ setup_idx() {
     openssh
     git
     qemu_kvm
+    btop
     sudo
     cdrkit
     cloud-utils
