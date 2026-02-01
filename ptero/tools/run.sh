@@ -43,7 +43,7 @@ tools_menu() {
         # -- SECTION 2: SYSTEM & OPS --
         echo -e "${YELLOW}  [ SYSTEM OPERATIONS ]${NC}"
         echo -e "  ${GREEN}4)${NC} System Info         ${GRAY}:: (Specs & Status)${NC}"
-        echo -e "  ${GREEN}5)${NC} Vps Run             ${GRAY}:: (Optimizer)${NC}"
+        echo -e "  ${GREEN}5)${NC} Port Forward        ${GRAY}:: (TCP/UDP)${NC}"
         echo ""
 
         # -- SECTION 3: INTERFACE --
@@ -79,7 +79,7 @@ tools_menu() {
                 bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/tools/info.sh) 
                 pause ;;
             5) 
-                echo -e "\n${YELLOW}Running VPS Optimizer...${NC}"
+                echo -e "\n${YELLOW}Running tcp Optimizer...${NC}"
                 bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/tools/localtonet.sh) 
                 pause ;;
             6) 
