@@ -135,7 +135,7 @@ update_panel() {
     status_msg "INFO" "Putting panel into Maintenance Mode..."
     cd /var/www/pterodactyl
     php artisan down
-    rm -rf *
+    rm -rf 
     cd /var/www/pterodactyl
     status_msg "INFO" "Downloading latest release..."
     curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
