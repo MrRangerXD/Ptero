@@ -63,31 +63,30 @@ panel_menu() {
         # Logic
         case $p in
             1) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/Uninstall/unFEATHERPANEL.sh) 
-                pause ;;
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/Uninstall/unFEATHERPANEL.sh)
             2) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/panel/pterodactyl/run.sh) 
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/panel/pterodactyl/run.sh) 
                 pause ;;
             3) 
-                bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/panel/Jexactyl/run.sh)
+                bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/panel/Jexactyl/run.sh)
                 pause ;;
             4) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/Uninstall/unJexactyl.sh) 
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/Uninstall/unJexactyl.sh) 
                 pause ;;
             5) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/Uninstall/undash-3.sh) 
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/Uninstall/undash-3.sh) 
                 pause ;;
             6) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/Uninstall/dash-v4.sh) 
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/Uninstall/dash-v4.sh) 
                 pause ;;
             7) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/Uninstall/unPaymenter.sh) 
+                bash <(curl -s https://raw.githubusercontent.com/nMrRangerXD/Zensei-Network/refs/heads/main/srv/Uninstall/unPaymenter.sh) 
                 pause ;;
             8) 
                 bash <(curl -s https://raw.githubusercontent.com/nobita54/-150/refs/heads/main/Uninstall/unCtrlPanel.sh) 
                 pause ;;
             9) 
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/Uninstall/unReviactyl.sh) 
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/Uninstall/unReviactyl.sh) 
                 pause ;;
             10) 
                 bash <(curl -s https://raw.githubusercontent.com/yourlink/t-panel.sh) 
