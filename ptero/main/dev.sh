@@ -148,17 +148,17 @@ main_menu(){
         
         echo -e ""
         echo -e "  ${GRAY}Enter the number corresponding to your choice:${NC}"
-        echo -ne "  ${BOLD}${GREEN}root@codinghub:~#${NC} "
+        echo -ne "  ${BOLD}${GREEN}root@zenseinetwork:~#${NC} "
         read -p "" c
 
         case $c in
-            1) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/vps/run.sh) ;;
-            2) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/panel/run.sh) ;;
-            3) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/wings/run.sh) ;;
-            4) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/tools/run.sh) ;;
-            5) loading_bar; bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/thame/chang/dev.sh) ;;
-            6) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/The-Coding-Hub/refs/heads/main/srv/menu/System1.sh) ;;
-            7) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/no-kvm/run.sh) ;;
+            1) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/run.sh) ;;
+            2) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/panel/run.sh) ;;
+            3) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/wings/run.sh) ;;
+            4) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/tools/run.sh) ;;
+            5) loading_bar; bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/thame/chang/dev.sh) ;;
+            6) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/menu/System1.sh) ;;
+            7) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/no-kvm/run.sh) ;;
             8) 
                 echo -e ""
                 echo -e "  ${GREEN}Thank you for using ZENSEI NETWORK!${NC}"
