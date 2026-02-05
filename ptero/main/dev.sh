@@ -1,6 +1,6 @@
 #!/bin/bash
 # ===========================================================
-# CODING HUB Terminal Control Panel (v3.5 - Stable Fix)
+# ZENSEI NETWORK Terminal Control Panel (v3.5 - Stable Fix)
 # UI Layout: Fixed Left | Colors: Old (Standard)
 # ===========================================================
 
@@ -69,16 +69,16 @@ header(){
     
     # --- LOGO AREA ---
     echo
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR} ██████╗ ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗     ██╗  ██╗██╗   ██╗██████╗ ${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}██╔════╝██╔═══██╗██╔══██╗██║████╗  ██║██╔════╝     ██║  ██║██║   ██║██╔══██╗${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${ACCENT_COLOR}██║     ██║   ██║██║  ██║██║██╔██╗ ██║██║  ███╗    ███████║██║   ██║██████╔╝${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${ACCENT_COLOR}██║     ██║   ██║██║  ██║██║██║╚██╗██║██║   ██║    ██╔══██║██║   ██║██╔══██╗${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}╚██████╗╚██████╔╝██████╔╝██║██║ ╚████║╚██████╔╝    ██║  ██║╚██████╔╝██████╔╝${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR} ╚═════╝ ╚═════╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}███████╗███████╗███╗   ██╗███████╗███████╗██╗${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}╚══███╔╝██╔════╝████╗  ██║██╔════╝██╔════╝██║${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${ACCENT_COLOR}  ███╔╝ █████╗  ██╔██╗ ██║███████╗█████╗  ██║${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${ACCENT_COLOR} ███╔╝  ██╔══╝  ██║╚██╗██║╚════██║██╔══╝  ██║${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}███████╗███████╗██║ ╚████║███████║███████╗██║${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${LOGO_COLOR}╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     echo
     echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${WHITE}CODING HUB CONTROL PANEL v4.0${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
-    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${BOLD}>> DEVELOPED BY NOBITA (2026) <<${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${WHITE}ZENSEI NETWORK CONTROL PANEL v4.0${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
+    echo -e "${BORDER_COLOR}${LINE_V}${NC}$(center_text_inner "${BOLD}>> DEVELOPED BY ZENSEI (2026) <<${NC}")  ${BORDER_COLOR}${LINE_V}${NC}"
     
     # Separator
     echo -e "${BORDER_COLOR}${LINE_V}$(printf '%.0s─' $(seq 1 $UI_WIDTH))${LINE_V}${NC}"
@@ -152,17 +152,17 @@ main_menu(){
         read -p "" c
 
         case $c in
-            1) loading_bar; bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/run.sh) ;;
-            2) loading_bar; bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/panel/run.sh) ;;
-            3) loading_bar; bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/wings/run.sh) ;;
-            4) loading_bar; bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/tools/run.sh) ;;
-            5) loading_bar; bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/thame/chang/dev.sh) ;;
-            6) loading_bar; bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/menu/System1.sh) ;;
-            7) loading_bar; bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/no-kvm/run.sh) ;;
+            1) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/vps/run.sh) ;;
+            2) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/panel/run.sh) ;;
+            3) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/wings/run.sh) ;;
+            4) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/tools/run.sh) ;;
+            5) loading_bar; bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/thame/chang/dev.sh) ;;
+            6) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/The-Coding-Hub/refs/heads/main/srv/menu/System1.sh) ;;
+            7) loading_bar; bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/no-kvm/run.sh) ;;
             8) 
                 echo -e ""
-                echo -e "  ${GREEN}Thank you for using CODING HUB!${NC}"
-                echo -e "  ${GRAY}See you soon, Nobita.${NC}"
+                echo -e "  ${GREEN}Thank you for using ZENSEI NETWORK!${NC}"
+                echo -e "  ${GRAY}See you soon, Zensei.${NC}"
                 echo -e ""
                 exit 
                 ;;
