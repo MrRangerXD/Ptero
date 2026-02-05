@@ -45,7 +45,7 @@ execute_script() {
 while true; do
     clear
     echo -e "${B_CYAN}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-    echo -e "${B_CYAN}┃${NC}  ${B_GREEN}🚀 NOBITA-PTERO CONTROL CENTER v10.0${NC}         ${B_CYAN}┃${NC}"
+    echo -e "${B_CYAN}┃${NC}  ${B_GREEN}🚀 ZENSEI-PTERO CONTROL CENTER v10.0${NC}         ${B_CYAN}┃${NC}"
     echo -e "${B_CYAN}┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫${NC}"
     echo -e "${B_CYAN}┃${NC} [1] Cockpit    ➔ $(get_docker_status "cockpit")"
     echo -e "${B_CYAN}┃${NC} [2] SSH WAB    ➔ $(get_docker_status "shellngn")"
@@ -58,11 +58,11 @@ while true; do
     read -r choice
 
     case $choice in
-        1) execute_script "https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/no-kvm/cockpit/run.sh" "cockpit" ;;
-        2) execute_script "https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/no-kvm/SSH.sh" "shellngn" ;;
-        3) execute_script "https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/no-kvm/kali-rdp.sh" "kali-rdp" ;;
-        4) execute_script "https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/no-kvm/win16.sh" "windows2016" ;;
-        5) execute_script "https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/no-kvm/tailscale.sh" "tailscale" ;;
+        1) execute_script "https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/no-kvm/cockpit/run.sh" "cockpit" ;;
+        2) execute_script "https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/no-kvm/SSH.sh" "shellngn" ;;
+        3) execute_script "https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/no-kvm/kali-rdp.sh" "kali-rdp" ;;
+        4) execute_script "https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/no-kvm/win16.sh" "windows2016" ;;
+        5) execute_script "https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/no-kvm/tailscale.sh" "tailscale" ;;
         6) exit 0 ;;
         *) echo -e "${B_RED}Invalid!${NC}" ; sleep 1 ;;
     esac
