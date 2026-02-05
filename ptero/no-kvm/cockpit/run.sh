@@ -79,7 +79,7 @@ install_cockpit() {
     return
   fi
   echo -e "\n${INFO}🚀 Installing Cockpit...${NC}"
-  docker run -d --name cockpit --hostname Nobita --privileged --net=host --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:rw nobitaa/cockpit:latest
+  docker run -d --name cockpit --hostname Zensei --privileged --net=host --cgroupns=host -v /sys/fs/cgroup:/sys/fs/cgroup:rw nobitaa/cockpit:latest
   echo -e "${SUCCESS}✅ Installed & Started!${NC}"
   sleep 2
 }
