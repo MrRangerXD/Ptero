@@ -171,15 +171,15 @@ while true; do
     header
     show_menu
     
-    echo -ne "${C}root@mack-panel:~# ${N}"
+    echo -ne "${C}root@zenseinetwork:~# ${N}"
     read opt
     
     case $opt in
         1) ssl_setup ;;
-        2) bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/wings/install.sh) ;;
-        3) bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/wings/config.sh) ;;
-        4) bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/wings/Manag) ;;
-        5) bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/wings/db.sh) ;;
+        2) bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/wings/install.sh) ;;
+        3) bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/wings/config.sh) ;;
+        4) bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/wings/Manag) ;;
+        5) bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/wings/db.sh) ;;
         6) uninstall_menu ;;
         0) 
            echo -e "\n${G}👋 Goodbye!${N}"
