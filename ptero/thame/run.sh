@@ -66,21 +66,21 @@ pause() {
 blueprint1() {
   header
   echo -e "\n${BG} [ ACTION STARTED ] ${N} ${W}Running Blueprint 1...${N}\n"
-  bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/thame/blueprint.sh)
+  bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/thame/blueprint.sh)
   pause
 }
 
 blueprint2() {
   header
   echo -e "\n${BY} [ ACTION STARTED ] ${N} ${W}Running Blueprint 2 (Rebuild)...${N}\n"
-  bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/thame/blueprint-2.sh)
+  bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/thame/blueprint-2.sh)
   pause
 }
 
 autofix() {
     header
     echo -e "\n${BM} [ DIAGNOSTICS ] ${N} ${W}Attempting Auto-Fix...${N}\n"
-    bash <(curl -s https://raw.githubusercontent.com/nobita329/The-Coding-Hub/refs/heads/main/srv/thame/fix.sh)
+    bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Zensei-Network/refs/heads/main/srv/thame/fix.sh)
     pause
 }
 
