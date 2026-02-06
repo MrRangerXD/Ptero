@@ -89,15 +89,15 @@ EOF
 # --- 2. VM 1 (KVM) ---
 run_vm_1() {
     echo -e "${B}🌐 LAUNCHING VM 1 (KVM MODE)...${N}"
-    bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/vm-1.sh)
+    bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/vm-1.sh)
     pause
 }
 
 # --- 3. VM 2 (NO KVM) ---
 run_vm_2() {
     echo -e "${M}🌐 LAUNCHING VM 2 (NO KVM MODE)...${N}"
-    bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/auto.sh)
-    bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/vm-2.sh)
+    bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/auto.sh)
+    bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/vm-2.sh)
     pause
 }
 
@@ -118,17 +118,17 @@ panel_menu() {
         case $p_opt in
             1) 
                 echo -e "${B}➜ Installing Cockpit...${N}"
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/cockpit.sh)
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/panel/cockpit.sh)
                 echo -e "${G}✅ Done. Access at http://IP:9090${N}"; pause 
                 ;;
             2) 
                 echo -e "${B}➜ Installing CasaOS...${N}"
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/casaos.sh)
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/panel/casaos.sh)
                 pause 
                 ;;
             3) 
                 echo -e "${B}➜ Installing 1Panel...${N}"
-                bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/1panel.sh)
+                bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/panel/1panel.sh)
                 pause 
                 ;;
             0) return ;;
@@ -145,7 +145,7 @@ lxc_setup() {
         apt update && apt install lxd lxc-client curl wget -y
         sudo usermod -aG lxd $USER
         sudo usermod -aG lxd root
-        bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/panel/lxcc.sh)
+        bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/panel/lxcc.sh)
         echo -e "${G}✅ Installed. Please logout/login.${N}"
     else
         echo -e "${G}✔ LXD is already installed.${N}"
@@ -158,7 +158,7 @@ docker_setup() {
     echo -e "${C}🐳 DOCKER MANAGER${N}"
     if ! command -v docker &>/dev/null; then
         echo -e "${Y}Installing Docker...${N}"
-        bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/Docker.sh)
+        bash <(curl -s https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/vps/Docker.sh)
     else
         echo -e "${G}✔ Docker is already installed.${N}"
     fi
