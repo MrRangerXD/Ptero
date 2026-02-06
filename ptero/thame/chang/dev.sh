@@ -40,8 +40,8 @@ echo
 read -p "➜ Select Option: " opt
 
 case $opt in
-1) bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/thame/run.sh) ;;
-2) bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/thame/chang/run.sh) ;;
+1) bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/thame/run.sh) ;;
+2) bash <(curl -fsSL https://raw.githubusercontent.com/MrRangerXD/Ptero/refs/heads/main/ptero/thame/chang/run.sh) ;;
 3) exit ;;
 *) echo -e "${RED}Invalid Option${RESET}" ; sleep 1 ; menu ;;
 esac
